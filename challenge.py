@@ -52,11 +52,10 @@ def generate_output_file(data):
     try:
         with open('output.txt', 'w') as file:
             for company in data:
-                # Company header
+
                 file.write(f"\nCompany Id: {company['id']}\n")
                 file.write(f"Company Name: {company['name']}\n")
                 
-                # Users Emailed section
                 file.write("Users Emailed:\n")
                 emailed_users = company.get('users_emailed', [])
                 if emailed_users:
@@ -65,7 +64,6 @@ def generate_output_file(data):
                         file.write(f"\t\tPrevious Token Balance, {user['tokens']}\n")
                         file.write(f"\t\tNew Token Balance {user['new_token_balance']}\n")
                 
-                # Users Not Emailed section
                 file.write("Users Not Emailed:\n")
                 not_emailed_users = company.get('users_not_emailed', [])
                 if not_emailed_users:
@@ -74,7 +72,6 @@ def generate_output_file(data):
                         file.write(f"\t\tPrevious Token Balance, {user['tokens']}\n")
                         file.write(f"\t\tNew Token Balance {user['new_token_balance']}\n")
                 
-                # Total top-ups (optional)
                 if 'total_top_ups' in company:
                     file.write(f"\tTotal amount of top ups for {company['name']}: {company['total_top_ups']}\n")
     
@@ -95,8 +92,7 @@ def main(companies_json_file: str = "companies.json", users_json_file: str = "us
     output_data = []
     companies_json_data = read_json_file(companies_json_file)
     users_json_data = read_json_file(users_json_file)
-    # Another way but does not handle exceptions
-    # users_data = json.load(open(users_json_file))
+
     for company in companies_json_data:
         try:
             matching_users = [user for user in users_json_data if user['company_id'] == company['id']]
